@@ -10,15 +10,15 @@ class FoodlistViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     serializer_class = FoodlistSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request, *args, **question):
+    def create(self, request, *args, **kwarg):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwarg):
-        question = Foodlist.objects.get(pk=kwarg['pk'])
-        serializer = FoodlistSerializer(question)
+        food = Foodlist.objects.filter(nation_id=kwarg['pk'])
+        serializer = FoodlistSerializer(food, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -28,13 +28,13 @@ class NationViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     serializer_class = NationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request, *args, **choice):
+    def create(self, request, *args, **kwarg):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwarg):
-        choice = Nation.objects.get(pk=kwarg['pk'])
-        serializer = NationSerializer(choice)
+        nation = Foodlist.objects.filter(nation_id=kwarg['pk'])
+        serializer = NationSerializer(nation, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

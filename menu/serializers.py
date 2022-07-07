@@ -10,14 +10,13 @@ class NationSerializer(serializers.ModelSerializer):
     foodmenu = serializers.SerializerMethodField()
 
     def get_foodmenu(self, obj):
-        print(obj)
         foods = Foodlist.objects.filter(pk=obj.id)
         serializer = FoodlistSerializer(foods, many=True)
         return serializer.data
 
 
 class FoodlistSerializer(serializers.ModelSerializer):
-    nation = serializers.StringRelatedField()
+    # nation = serializers.StringRelatedField()
 
     class Meta:
         model = Foodlist
